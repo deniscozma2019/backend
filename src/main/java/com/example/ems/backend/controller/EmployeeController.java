@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +24,13 @@ public class EmployeeController {
 
     // create employee rest api
     @PostMapping("/employees")
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public Employee createEmployee(@RequestBody @Valid Employee employee) {
         return employeeRepository.save(employee);
     }
 
     // get employee by id rest api
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable @Valid Long id) {
         Employee employee = (Employee) employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
         return ResponseEntity.ok(employee);
